@@ -15,7 +15,7 @@ End Sub
 
 Sub UpdateScoreBoard()
     For Each shp In Shapes
-        If shp.Name Like "_*" Then shp.Delete
+        If shp.Name Like "Digit*" Then shp.Delete
     Next
     
     Dim d100: Dim d10: Dim d1
@@ -25,21 +25,31 @@ Sub UpdateScoreBoard()
     d1 = Int([A6] Mod 10)
     Application.CutCopyMode = True
     
-    Sheet3.Shapes("_" & d100).Copy
-    Sheet4.Range("L2").Select
-    Paste
-
-    Sheet3.Shapes("_" & d10).Copy
-    Sheet4.Range("N2").Select
-    Paste
+    Set shp100 = Shapes("_" & d100).Duplicate
+    Set shp10 = Shapes("_" & d10).Duplicate
+    Set shp1 = Shapes("_" & d1).Duplicate
+    With [L2]
+        shp100.Left = .Left
+        shp100.Top = .Top
+        shp100.Name = "Digit100"
+        shp100.Visible = True
+    End With
     
-    Sheet3.Shapes("_" & d1).Copy
-    Sheet4.Range("P2").Select
-    Paste
-    Application.CutCopyMode = False
+    With [N2]
+        shp10.Left = .Left
+        shp10.Top = .Top
+        shp10.Name = "Digit10"
+        shp10.Visible = True
+    End With
     
-    [L2].Select
-    CommandButton1.Activate
+    With [P2]
+        shp1.Left = .Left
+        shp1.Top = .Top
+        shp1.Name = "Digit1"
+        shp1.Visible = True
+    End With
+    
+    
 End Sub
 
 Sub StartGameLoop()
